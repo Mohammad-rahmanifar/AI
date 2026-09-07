@@ -3,51 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هوش مصنوعی | دنیای شگفت‌انگیز AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>هوش مصنوعی | دنیای بی‌نهایت AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* ===== CSS VARIABLES ===== */
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --accent: #fd79a8;
-            --accent2: #00cec9;
-            --accent3: #fdcb6e;
-            --dark: #0a0a1a;
-            --darker: #050510;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --text: #e8e8f0;
-            --text-muted: #a0a0b8;
-            --glow-purple: rgba(108, 92, 231, 0.4);
-            --glow-pink: rgba(253, 121, 168, 0.3);
-            --glow-cyan: rgba(0, 206, 201, 0.3);
-            --gradient-1: linear-gradient(135deg, #6c5ce7, #fd79a8, #00cec9);
-            --gradient-2: linear-gradient(135deg, #a29bfe, #6c5ce7, #fd79a8);
-            --gradient-3: linear-gradient(135deg, #fd79a8, #fdcb6e);
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg-primary: #05050e;
+            --bg-secondary: #0a0a18;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --border-card: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            --text-primary: #f0f0f8;
+            --text-secondary: #b0b0c8;
+            --text-muted: #707090;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-cyan: #06b6d4;
+            --accent-amber: #f59e0b;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --glow-purple: rgba(139, 92, 246, 0.5);
+            --glow-pink: rgba(236, 72, 153, 0.4);
+            --glow-cyan: rgba(6, 182, 212, 0.4);
+            --gradient-main: linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4);
+            --gradient-warm: linear-gradient(135deg, #ec4899, #f59e0b);
+            --gradient-cool: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            --gradient-text: linear-gradient(135deg, #a78bfa, #f472b6, #22d3ee);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+            --radius-xl: 36px;
+            --shadow-card: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(139, 92, 246, 0.15);
+            --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-spring: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --font-main: 'Vazirmatn', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
-        * {
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
             scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Vazirmatn', sans-serif;
-            background: var(--dark);
-            color: var(--text);
+            font-family: var(--font-main);
+            background: var(--bg-primary);
+            color: var(--text-primary);
             overflow-x: hidden;
-            line-height: 1.8;
-            cursor: default;
-            position: relative;
+            line-height: 1.9;
             min-height: 100vh;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ========== CANVAS BACKGROUND ========== */
-        #particleCanvas {
+        ::selection {
+            background: rgba(139, 92, 246, 0.4);
+            color: #fff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-purple), var(--accent-pink));
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--accent-pink), var(--accent-cyan));
+        }
+
+        /* ===== CANVAS PARTICLES ===== */
+        #neuralCanvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -55,123 +102,182 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
-        /* ========== ANIMATED GRADIENT ORBS ========== */
+        /* ===== ORBS ===== */
         .orb {
             position: fixed;
             border-radius: 50%;
-            filter: blur(120px);
+            filter: blur(140px);
             z-index: 0;
             pointer-events: none;
-            animation: orbFloat 20s ease-in-out infinite;
-            opacity: 0.35;
+            animation: orbFloat 25s ease-in-out infinite;
+            opacity: 0.3;
         }
         .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: var(--primary);
-            top: -100px;
-            right: -100px;
+            width: 600px;
+            height: 600px;
+            background: #8b5cf6;
+            top: -150px;
+            right: -150px;
             animation-delay: 0s;
+            opacity: 0.25;
         }
         .orb-2 {
-            width: 450px;
-            height: 450px;
-            background: var(--accent);
+            width: 500px;
+            height: 500px;
+            background: #ec4899;
             bottom: -100px;
             left: -100px;
-            animation-delay: -7s;
-        }
-        .orb-3 {
-            width: 350px;
-            height: 350px;
-            background: var(--accent2);
-            top: 50%;
-            left: 30%;
-            animation-delay: -14s;
+            animation-delay: -8s;
             opacity: 0.2;
         }
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: #06b6d4;
+            top: 55%;
+            left: 35%;
+            animation-delay: -16s;
+            opacity: 0.15;
+        }
         .orb-4 {
-            width: 300px;
-            height: 300px;
-            background: #6c5ce7;
-            bottom: 30%;
-            right: 20%;
-            animation-delay: -3s;
-            opacity: 0.25;
+            width: 350px;
+            height: 350px;
+            background: #f59e0b;
+            bottom: 25%;
+            right: 18%;
+            animation-delay: -4s;
+            opacity: 0.12;
         }
 
         @keyframes orbFloat {
-            0%, 100% {
+            0%,
+            100% {
                 transform: translate(0, 0) scale(1);
             }
             25% {
-                transform: translate(60px, -40px) scale(1.1);
+                transform: translate(70px, -50px) scale(1.08);
             }
             50% {
-                transform: translate(-30px, 50px) scale(0.95);
+                transform: translate(-40px, 60px) scale(0.92);
             }
             75% {
-                transform: translate(40px, 30px) scale(1.05);
+                transform: translate(50px, 40px) scale(1.04);
             }
         }
 
-        /* ========== MAIN CONTAINER ========== */
-        .main-container {
-            position: relative;
-            z-index: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
+        /* ===== PRELOADER ===== */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .preloader-content {
+            text-align: center;
+        }
+        .preloader-spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(139, 92, 246, 0.2);
+            border-top: 4px solid var(--accent-purple);
+            border-right: 4px solid var(--accent-pink);
+            border-radius: 50%;
+            animation: spin 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            margin: 0 auto 24px;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .preloader-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
         }
 
-        /* ========== NAVIGATION ========== */
+        /* ===== NAVBAR ===== */
         .navbar {
             position: fixed;
             top: 0;
-            right: 0;
             left: 0;
-            z-index: 100;
-            padding: 16px 32px;
-            background: rgba(5, 5, 16, 0.7);
+            right: 0;
+            z-index: 1000;
+            padding: 18px 36px;
+            background: rgba(5, 5, 14, 0.6);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: all 0.4s ease;
+            transition: all var(--transition-base);
         }
         .navbar.scrolled {
-            padding: 10px 32px;
-            background: rgba(5, 5, 16, 0.9);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+            padding: 12px 36px;
+            background: rgba(5, 5, 14, 0.85);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.5);
+            border-bottom-color: rgba(139, 92, 246, 0.25);
         }
         .nav-logo {
             font-size: 1.5rem;
             font-weight: 900;
-            background: var(--gradient-1);
+            background: var(--gradient-text);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -0.5px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            user-select: none;
+        }
+        .nav-logo:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
         }
         .nav-links {
             display: flex;
-            gap: 28px;
+            gap: 24px;
             list-style: none;
             align-items: center;
         }
         .nav-links a {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all var(--transition-fast);
             position: relative;
             padding-bottom: 4px;
+            letter-spacing: 0.3px;
         }
         .nav-links a::after {
             content: '';
@@ -180,9 +286,9 @@
             right: 0;
             width: 0;
             height: 2px;
-            background: var(--gradient-1);
+            background: var(--gradient-main);
             border-radius: 2px;
-            transition: width 0.3s ease;
+            transition: width var(--transition-base);
         }
         .nav-links a:hover {
             color: #fff;
@@ -190,8 +296,50 @@
         .nav-links a:hover::after {
             width: 100%;
         }
+        .nav-links a.active {
+            color: #fff;
+        }
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+            border: none;
+            background: none;
+            z-index: 1001;
+        }
+        .nav-toggle span {
+            width: 26px;
+            height: 2.5px;
+            background: var(--text-primary);
+            border-radius: 4px;
+            transition: all var(--transition-fast);
+        }
+        .nav-toggle.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .nav-toggle.open span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .nav-toggle.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
 
-        /* ========== HERO SECTION ========== */
+        /* ===== MAIN CONTAINER ===== */
+        .main-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ===== HERO ===== */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -199,59 +347,66 @@
             justify-content: center;
             text-align: center;
             position: relative;
-            padding: 100px 0 60px;
+            padding: 120px 0 80px;
+            z-index: 1;
         }
         .hero-content {
-            max-width: 800px;
+            max-width: 850px;
         }
         .hero-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 20px;
-            background: var(--glass);
+            gap: 10px;
+            padding: 10px 22px;
+            background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 50px;
             font-size: 0.85rem;
-            color: var(--secondary);
-            margin-bottom: 24px;
-            animation: fadeInDown 1s ease 0.2s both;
-            backdrop-filter: blur(10px);
+            color: var(--accent-cyan);
+            margin-bottom: 28px;
+            animation: fadeInDown 0.8s ease 0.3s both;
+            backdrop-filter: blur(12px);
+            font-weight: 600;
         }
         .hero-badge .dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--accent2);
-            animation: pulse-dot 2s ease-in-out infinite;
+            background: var(--accent-cyan);
+            animation: pulseDot 2s ease-in-out infinite;
+            box-shadow: 0 0 12px var(--glow-cyan);
         }
-        @keyframes pulse-dot {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(0, 206, 201, 0.6);
+        @keyframes pulseDot {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.6);
+                transform: scale(1);
             }
             50% {
-                box-shadow: 0 0 0 8px rgba(0, 206, 201, 0);
+                box-shadow: 0 0 0 10px rgba(6, 182, 212, 0);
+                transform: scale(1.1);
             }
         }
-
         .hero-title {
-            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-size: clamp(3rem, 7vw, 5.8rem);
             font-weight: 900;
-            line-height: 1.2;
-            margin-bottom: 16px;
-            animation: fadeInUp 1s ease 0.4s both;
-            letter-spacing: -1px;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease 0.5s both;
+            letter-spacing: -1.5px;
         }
         .hero-title .gradient-text {
-            background: var(--gradient-1);
+            background: var(--gradient-text);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            background-size: 300% 300%;
+            background-size: 200% 200%;
             animation: gradientShift 4s ease infinite;
+            display: inline-block;
         }
         @keyframes gradientShift {
-            0%, 100% {
+            0%,
+            100% {
                 background-position: 0% 50%;
             }
             50% {
@@ -260,110 +415,129 @@
         }
         .hero-subtitle {
             font-size: 1.15rem;
-            color: var(--text-muted);
-            max-width: 620px;
-            margin: 0 auto 36px;
-            animation: fadeInUp 1s ease 0.6s both;
-            line-height: 2;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto 40px;
+            animation: fadeInUp 0.8s ease 0.7s both;
+            line-height: 2.2;
+            font-weight: 400;
         }
         .hero-cta {
             display: flex;
-            gap: 16px;
+            gap: 18px;
             justify-content: center;
             flex-wrap: wrap;
-            animation: fadeInUp 1s ease 0.8s both;
+            animation: fadeInUp 0.8s ease 0.9s both;
         }
         .btn {
-            padding: 14px 32px;
+            padding: 16px 36px;
             border-radius: 50px;
-            font-family: 'Vazirmatn', sans-serif;
+            font-family: var(--font-main);
             font-size: 0.95rem;
             font-weight: 700;
             text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all var(--transition-spring);
             cursor: pointer;
             border: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             position: relative;
             overflow: hidden;
+            letter-spacing: 0.3px;
         }
         .btn-primary {
-            background: var(--gradient-1);
+            background: var(--gradient-main);
             background-size: 200% 200%;
             color: #fff;
             animation: gradientShift 3s ease infinite;
-            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.4);
+            box-shadow: 0 10px 35px rgba(139, 92, 246, 0.45);
         }
         .btn-primary:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 15px 40px rgba(108, 92, 231, 0.55);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.6);
+        }
+        .btn-primary:active {
+            transform: translateY(-1px) scale(0.98);
         }
         .btn-outline {
-            background: var(--glass);
-            color: var(--text);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1.5px solid var(--glass-border);
+            backdrop-filter: blur(12px);
         }
         .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
         .btn .icon {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            transition: transform var(--transition-fast);
         }
-
+        .btn:hover .icon {
+            transform: scale(1.2);
+        }
         .scroll-indicator {
             position: absolute;
-            bottom: 30px;
+            bottom: 35px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             color: var(--text-muted);
             font-size: 0.75rem;
-            animation: fadeInUp 1s ease 1.2s both;
+            animation: fadeInUp 0.8s ease 1.3s both;
             cursor: pointer;
+            transition: opacity var(--transition-fast);
+            z-index: 2;
+        }
+        .scroll-indicator:hover {
+            opacity: 0.7;
         }
         .scroll-indicator .mouse {
-            width: 26px;
-            height: 40px;
-            border: 2px solid var(--text-muted);
-            border-radius: 13px;
+            width: 28px;
+            height: 44px;
+            border: 2.5px solid var(--text-muted);
+            border-radius: 14px;
             position: relative;
+            transition: border-color var(--transition-fast);
+        }
+        .scroll-indicator:hover .mouse {
+            border-color: var(--accent-purple);
         }
         .scroll-indicator .mouse::after {
             content: '';
             position: absolute;
-            top: 6px;
+            top: 7px;
             left: 50%;
             transform: translateX(-50%);
             width: 4px;
-            height: 8px;
-            background: var(--accent2);
+            height: 10px;
+            background: var(--accent-cyan);
             border-radius: 2px;
             animation: scrollWheel 1.8s ease-in-out infinite;
         }
         @keyframes scrollWheel {
-            0%, 100% {
+            0%,
+            100% {
                 transform: translateX(-50%) translateY(0);
                 opacity: 1;
             }
             50% {
-                transform: translateX(-50%) translateY(12px);
-                opacity: 0.3;
+                transform: translateX(-50%) translateY(14px);
+                opacity: 0.2;
             }
         }
 
-        /* ========== ANIMATIONS ========== */
+        /* ===== ANIMATION KEYFRAMES ===== */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
@@ -388,64 +562,94 @@
                 opacity: 1;
             }
         }
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
 
-        /* ========== SECTION COMMON ========== */
+        /* ===== SECTION COMMON ===== */
         .section {
             padding: 100px 0 80px;
             position: relative;
+            z-index: 1;
         }
         .section-header {
             text-align: center;
             margin-bottom: 60px;
         }
         .section-label {
-            display: inline-block;
-            padding: 6px 18px;
-            background: var(--glass);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 20px;
+            background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 50px;
             font-size: 0.8rem;
-            color: var(--accent2);
+            color: var(--accent-cyan);
             margin-bottom: 16px;
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(8px);
         }
         .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
             font-weight: 900;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             line-height: 1.3;
+            letter-spacing: -0.5px;
         }
         .section-title .highlight {
-            background: var(--gradient-2);
+            background: var(--gradient-text);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease infinite;
         }
         .section-desc {
-            color: var(--text-muted);
-            max-width: 640px;
+            color: var(--text-secondary);
+            max-width: 680px;
             margin: 0 auto;
-            font-size: 1.05rem;
-            line-height: 2;
+            font-size: 1.02rem;
+            line-height: 2.2;
         }
 
-        /* ========== ABOUT AI ========== */
+        /* ===== ABOUT AI SECTION ===== */
         .about-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 28px;
             margin-top: 40px;
         }
         .about-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 32px 28px;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-md);
+            padding: 36px 28px;
+            transition: all var(--transition-spring);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            cursor: default;
+            transform-style: preserve-3d;
+            perspective: 600px;
         }
         .about-card::before {
             content: '';
@@ -454,67 +658,107 @@
             right: 0;
             width: 100%;
             height: 3px;
-            background: var(--gradient-1);
+            background: var(--gradient-main);
             background-size: 200% 200%;
             animation: gradientShift 3s ease infinite;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity var(--transition-base);
+        }
+        .about-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center,
+                    rgba(139, 92, 246, 0.08) 0%,
+                    transparent 60%);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform var(--transition-slow);
+            pointer-events: none;
+            border-radius: 50%;
         }
         .about-card:hover::before {
             opacity: 1;
         }
+        .about-card:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
         .about-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-hover);
+            background: rgba(255, 255, 255, 0.04);
         }
         .about-card .icon-wrap {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
+            width: 62px;
+            height: 62px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.6rem;
-            margin-bottom: 18px;
-            background: var(--glass);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            transition: all 0.4s ease;
+            transition: all var(--transition-spring);
+            position: relative;
+            z-index: 1;
         }
         .about-card:hover .icon-wrap {
-            transform: scale(1.1) rotate(-5deg);
-            box-shadow: 0 8px 25px var(--glow-purple);
+            transform: scale(1.1) rotate(-6deg);
+            box-shadow: 0 10px 30px var(--glow-purple);
+            border-color: rgba(139, 92, 246, 0.4);
         }
         .about-card h3 {
             font-size: 1.25rem;
             font-weight: 800;
             margin-bottom: 10px;
             color: #fff;
+            position: relative;
+            z-index: 1;
         }
         .about-card p {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-size: 0.92rem;
             line-height: 2;
+            position: relative;
+            z-index: 1;
+        }
+        .about-card .card-number {
+            position: absolute;
+            top: 16px;
+            left: 20px;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.04);
+            font-family: var(--font-mono);
+            pointer-events: none;
+            transition: color var(--transition-base);
+        }
+        .about-card:hover .card-number {
+            color: rgba(139, 92, 246, 0.15);
         }
 
-        /* ========== TYPES OF AI ========== */
+        /* ===== TYPES SECTION ===== */
         .types-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
             margin-top: 40px;
         }
         .type-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 36px 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-lg);
+            padding: 40px 30px;
             text-align: center;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all var(--transition-spring);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            cursor: default;
         }
         .type-card::after {
             content: '';
@@ -523,27 +767,34 @@
             left: 0;
             right: 0;
             height: 4px;
-            border-radius: 0 0 24px 24px;
-            transition: all 0.4s ease;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            transition: all var(--transition-base);
+            opacity: 0.7;
         }
         .type-card:nth-child(1)::after {
-            background: linear-gradient(90deg, #00cec9, #81ecec);
+            background: linear-gradient(90deg, #06b6d4, #22d3ee);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
         }
         .type-card:nth-child(2)::after {
-            background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
         }
         .type-card:nth-child(3)::after {
-            background: linear-gradient(90deg, #fd79a8, #ff9ff3);
+            background: linear-gradient(90deg, #ec4899, #f472b6);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
         }
         .type-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.04);
         }
         .type-card .type-icon {
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             margin-bottom: 20px;
             display: block;
             animation: floatIcon 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
         }
         .type-card:nth-child(2) .type-icon {
             animation-delay: -1s;
@@ -552,65 +803,76 @@
             animation-delay: -2s;
         }
         @keyframes floatIcon {
-            0%, 100% {
+            0%,
+            100% {
                 transform: translateY(0);
             }
             50% {
-                transform: translateY(-12px);
+                transform: translateY(-14px);
             }
         }
         .type-card h3 {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             font-weight: 800;
             margin-bottom: 8px;
+            color: #fff;
         }
         .type-card .type-status {
             font-size: 0.75rem;
-            padding: 4px 14px;
+            padding: 5px 16px;
             border-radius: 50px;
             display: inline-block;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
             font-weight: 600;
+            letter-spacing: 0.3px;
         }
         .status-available {
-            background: rgba(0, 206, 201, 0.15);
-            color: #00cec9;
-            border: 1px solid rgba(0, 206, 201, 0.3);
+            background: rgba(6, 182, 212, 0.12);
+            color: #22d3ee;
+            border: 1px solid rgba(6, 182, 212, 0.3);
         }
         .status-developing {
-            background: rgba(108, 92, 231, 0.15);
-            color: #a29bfe;
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            background: rgba(139, 92, 246, 0.12);
+            color: #a78bfa;
+            border: 1px solid rgba(139, 92, 246, 0.3);
         }
         .status-future {
-            background: rgba(253, 121, 168, 0.15);
-            color: #fd79a8;
-            border: 1px solid rgba(253, 121, 168, 0.3);
+            background: rgba(236, 72, 153, 0.12);
+            color: #f472b6;
+            border: 1px solid rgba(236, 72, 153, 0.3);
         }
         .type-card p {
-            color: var(--text-muted);
-            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
             line-height: 2;
         }
 
-        /* ========== ML & DL SECTION ========== */
+        /* ===== ML SECTION ===== */
         .ml-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 36px;
+            gap: 40px;
             align-items: center;
             margin-top: 40px;
         }
         .ml-info h3 {
             font-size: 1.8rem;
             font-weight: 900;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .ml-info h3 .highlight {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .ml-info p {
-            color: var(--text-muted);
-            line-height: 2.2;
-            margin-bottom: 20px;
+            color: var(--text-secondary);
+            line-height: 2.3;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
         }
         .ml-tags {
             display: flex;
@@ -618,93 +880,194 @@
             gap: 10px;
         }
         .ml-tag {
-            padding: 8px 16px;
-            background: var(--glass);
+            padding: 9px 18px;
+            background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 50px;
             font-size: 0.8rem;
-            color: var(--secondary);
-            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            transition: all var(--transition-fast);
             cursor: default;
+            font-weight: 500;
+            user-select: none;
         }
         .ml-tag:hover {
-            background: rgba(108, 92, 231, 0.2);
-            border-color: rgba(108, 92, 231, 0.4);
-            transform: translateY(-2px);
+            background: rgba(139, 92, 246, 0.15);
+            border-color: rgba(139, 92, 246, 0.4);
+            transform: translateY(-3px);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.2);
         }
         .ml-visual {
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 300px;
+            min-height: 320px;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        .ml-visual:hover .brain-animation {
+            transform: scale(1.06);
+            filter: drop-shadow(0 0 50px var(--glow-purple));
         }
         .brain-animation {
-            font-size: 8rem;
+            font-size: 8.5rem;
             animation: brainPulse 3s ease-in-out infinite;
             position: relative;
-            filter: drop-shadow(0 0 40px var(--glow-purple));
+            filter: drop-shadow(0 0 35px var(--glow-purple));
+            transition: all var(--transition-base);
+            user-select: none;
         }
         @keyframes brainPulse {
-            0%, 100% {
+            0%,
+            100% {
                 transform: scale(1);
-                filter: drop-shadow(0 0 30px var(--glow-purple));
+                filter: drop-shadow(0 0 25px var(--glow-purple));
             }
             50% {
-                transform: scale(1.08);
-                filter: drop-shadow(0 0 60px var(--glow-purple));
+                transform: scale(1.06);
+                filter: drop-shadow(0 0 55px var(--glow-purple));
+            }
+        }
+        .ml-visual .neural-ring {
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            border: 2px dashed rgba(139, 92, 246, 0.3);
+            animation: rotateRing 12s linear infinite;
+            pointer-events: none;
+        }
+        .ml-visual .neural-ring.ring-2 {
+            width: 340px;
+            height: 340px;
+            border-color: rgba(236, 72, 153, 0.2);
+            animation-direction: reverse;
+            animation-duration: 18s;
+        }
+        @keyframes rotateRing {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
             }
         }
 
-        /* ========== APPLICATIONS ========== */
+        /* ===== STATS SECTION ===== */
+        .stats-section {
+            background: var(--bg-card);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 60px 0;
+            margin-top: 50px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        .stat-item {
+            padding: 20px;
+            transition: all var(--transition-fast);
+            border-radius: var(--radius-sm);
+            cursor: default;
+        }
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            transform: scale(1.03);
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            font-family: var(--font-mono);
+        }
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 500;
+            margin-top: 8px;
+            line-height: 1.8;
+        }
+
+        /* ===== APPLICATIONS ===== */
         .apps-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 22px;
             margin-top: 40px;
         }
         .app-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
             border-radius: 18px;
-            padding: 28px 22px;
+            padding: 30px 24px;
             text-align: center;
-            transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all var(--transition-spring);
             cursor: default;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             position: relative;
             overflow: hidden;
         }
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                    rgba(139, 92, 246, 0.05),
+                    rgba(236, 72, 153, 0.03),
+                    transparent);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+            pointer-events: none;
+        }
+        .app-card:hover::before {
+            opacity: 1;
+        }
         .app-card .app-icon {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 14px;
             display: block;
-            transition: transform 0.4s ease;
+            transition: transform var(--transition-spring);
+            user-select: none;
         }
         .app-card:hover .app-icon {
-            transform: scale(1.25) rotate(5deg);
+            transform: scale(1.3) rotate(8deg);
         }
         .app-card h4 {
             font-weight: 700;
             font-size: 1.05rem;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             color: #fff;
         }
         .app-card p {
             font-size: 0.8rem;
             color: var(--text-muted);
-            line-height: 1.8;
+            line-height: 1.9;
         }
         .app-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(255, 255, 255, 0.18);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-hover);
         }
 
-        /* ========== TIMELINE ========== */
+        /* ===== TIMELINE ===== */
         .timeline {
             position: relative;
-            max-width: 720px;
+            max-width: 780px;
             margin: 60px auto 0;
             padding: 20px 0;
         }
@@ -715,15 +1078,23 @@
             bottom: 0;
             right: 50%;
             width: 3px;
-            background: linear-gradient(180deg, #6c5ce7, #fd79a8, #00cec9);
+            background: linear-gradient(180deg, #8b5cf6, #ec4899, #06b6d4, #f59e0b);
             border-radius: 3px;
             transform: translateX(50%);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
         }
         .timeline-item {
             position: relative;
             margin-bottom: 50px;
             width: 50%;
-            padding: 0 30px;
+            padding: 0 35px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all var(--transition-base);
+        }
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         .timeline-item:nth-child(odd) {
             right: 0;
@@ -735,110 +1106,87 @@
         }
         .timeline-item .timeline-dot {
             position: absolute;
-            top: 8px;
-            width: 18px;
-            height: 18px;
+            top: 10px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background: var(--gradient-1);
-            border: 3px solid var(--dark);
+            background: var(--gradient-main);
+            border: 3px solid var(--bg-primary);
             box-shadow: 0 0 20px var(--glow-purple);
             z-index: 2;
+            transition: all var(--transition-fast);
+        }
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.4);
+            box-shadow: 0 0 35px var(--glow-purple);
         }
         .timeline-item:nth-child(odd) .timeline-dot {
-            right: -9px;
+            right: -10px;
         }
         .timeline-item:nth-child(even) .timeline-dot {
-            left: -9px;
+            left: -10px;
         }
         .timeline-content {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
             border-radius: 16px;
-            padding: 22px 24px;
-            backdrop-filter: blur(10px);
-            transition: all 0.4s ease;
+            padding: 24px 26px;
+            backdrop-filter: blur(12px);
+            transition: all var(--transition-spring);
         }
         .timeline-content:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: scale(1.03);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--border-hover);
+            transform: scale(1.04);
+            box-shadow: var(--shadow-hover);
         }
         .timeline-content .year {
             font-size: 0.8rem;
             font-weight: 700;
-            color: var(--accent2);
+            color: var(--accent-cyan);
             margin-bottom: 6px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.5px;
         }
         .timeline-content h4 {
             font-weight: 800;
             font-size: 1rem;
             color: #fff;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         .timeline-content p {
             font-size: 0.82rem;
-            color: var(--text-muted);
-            line-height: 1.8;
+            color: var(--text-secondary);
+            line-height: 2;
         }
 
-        /* ========== STATS ========== */
-        .stats-section {
-            background: var(--card-bg);
-            border-top: 1px solid var(--glass-border);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 60px 0;
-            margin-top: 40px;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            text-align: center;
-        }
-        .stat-item .stat-number {
-            font-size: 3rem;
-            font-weight: 900;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.2;
-        }
-        .stat-item .stat-label {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-top: 6px;
-        }
-
-        /* ========== FUTURE SECTION ========== */
+        /* ===== FUTURE SECTION ===== */
         .future-box {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 28px;
-            padding: 50px 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-xl);
+            padding: 55px 45px;
             text-align: center;
             margin-top: 40px;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
         }
         .future-box::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: -60%;
+            left: -60%;
+            width: 220%;
+            height: 220%;
             background: conic-gradient(from 0deg,
                     transparent,
-                    rgba(108, 92, 231, 0.1),
+                    rgba(139, 92, 246, 0.06),
                     transparent,
-                    rgba(253, 121, 168, 0.1),
+                    rgba(236, 72, 153, 0.06),
                     transparent,
-                    rgba(0, 206, 201, 0.1),
+                    rgba(6, 182, 212, 0.06),
                     transparent);
-            animation: rotateGlow 8s linear infinite;
+            animation: rotateGlow 10s linear infinite;
             pointer-events: none;
         }
         @keyframes rotateGlow {
@@ -850,19 +1198,27 @@
             }
         }
         .future-box h3 {
-            font-size: 2rem;
+            font-size: 2.1rem;
             font-weight: 900;
             margin-bottom: 16px;
             position: relative;
             z-index: 1;
+            letter-spacing: -0.5px;
+        }
+        .future-box h3 .highlight {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .future-box p {
-            color: var(--text-muted);
-            line-height: 2.2;
-            max-width: 700px;
-            margin: 0 auto 28px;
+            color: var(--text-secondary);
+            line-height: 2.4;
+            max-width: 720px;
+            margin: 0 auto 30px;
             position: relative;
             z-index: 1;
+            font-size: 0.95rem;
         }
         .future-list {
             display: flex;
@@ -873,22 +1229,65 @@
             z-index: 1;
         }
         .future-chip {
-            padding: 10px 20px;
-            background: var(--glass);
+            padding: 11px 22px;
+            background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 50px;
             font-size: 0.85rem;
-            transition: all 0.3s ease;
+            transition: all var(--transition-spring);
             cursor: default;
+            font-weight: 500;
+            user-select: none;
         }
         .future-chip:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            background: rgba(139, 92, 246, 0.15);
+            border-color: rgba(139, 92, 246, 0.4);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.25);
+            color: #fff;
         }
 
-        /* ========== FOOTER ========== */
+        /* ===== ETHICS SECTION ===== */
+        .ethics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .ethics-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-md);
+            padding: 32px 26px;
+            transition: all var(--transition-spring);
+            backdrop-filter: blur(12px);
+            cursor: default;
+            position: relative;
+        }
+        .ethics-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-hover);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .ethics-card .ethics-icon {
+            font-size: 2.5rem;
+            margin-bottom: 14px;
+            display: block;
+        }
+        .ethics-card h4 {
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+        .ethics-card p {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 2;
+        }
+
+        /* ===== FOOTER ===== */
         .footer {
             padding: 50px 0 30px;
             text-align: center;
@@ -896,36 +1295,71 @@
             margin-top: 60px;
             position: relative;
             z-index: 1;
+            background: rgba(5, 5, 14, 0.5);
+            backdrop-filter: blur(10px);
         }
         .footer p {
             color: var(--text-muted);
             font-size: 0.85rem;
+            line-height: 2;
         }
         .footer .heart {
-            color: var(--accent);
+            color: var(--accent-pink);
             animation: heartbeat 1.5s ease-in-out infinite;
             display: inline-block;
         }
         @keyframes heartbeat {
-            0%, 100% {
+            0%,
+            100% {
                 transform: scale(1);
             }
-            25% {
-                transform: scale(1.2);
+            15% {
+                transform: scale(1.25);
             }
-            50% {
+            30% {
                 transform: scale(1);
             }
-            75% {
+            45% {
                 transform: scale(1.15);
             }
+            60% {
+                transform: scale(1);
+            }
+        }
+        .footer-social {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .footer-social a {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-spring);
+        }
+        .footer-social a:hover {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: rgba(139, 92, 246, 0.4);
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2);
         }
 
-        /* ========== SCROLL REVEAL ========== */
+        /* ===== SCROLL REVEAL ===== */
         .reveal {
             opacity: 0;
             transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all var(--transition-slow);
+            will-change: opacity, transform;
         }
         .reveal.active {
             opacity: 1;
@@ -944,26 +1378,104 @@
             transition-delay: 0.4s;
         }
 
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 12px 16px;
-            }
-            .nav-links {
-                gap: 14px;
-                font-size: 0.75rem;
-            }
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-main);
+            color: #fff;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-spring);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.55);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
             .ml-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
+                text-align: center;
+            }
+            .ml-info {
+                order: 1;
+            }
+            .ml-visual {
+                order: 2;
+                min-height: 200px;
+            }
+            .brain-animation {
+                font-size: 6rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 18px;
+            }
+            .navbar.scrolled {
+                padding: 10px 18px;
+            }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 320px;
+                height: 100vh;
+                background: rgba(5, 5, 14, 0.98);
+                backdrop-filter: blur(30px);
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                gap: 18px;
+                border-left: 1px solid var(--glass-border);
+                transition: right var(--transition-base);
+                z-index: 999;
+            }
+            .nav-links.open {
+                right: 0;
+            }
+            .nav-links a {
+                font-size: 1.05rem;
+                padding: 8px 0;
+            }
+            .nav-toggle {
+                display: flex;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .section {
+                padding: 70px 0 60px;
             }
             .timeline::before {
-                right: 10px;
+                right: 12px;
                 transform: none;
             }
             .timeline-item {
                 width: 100%;
-                padding-right: 40px;
+                padding-right: 45px;
                 padding-left: 0;
             }
             .timeline-item:nth-child(odd) {
@@ -975,33 +1487,43 @@
                 text-align: right;
             }
             .timeline-item .timeline-dot {
-                right: 2px !important;
+                right: 3px !important;
                 left: auto !important;
             }
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            .section {
-                padding: 70px 0 60px;
-            }
             .future-box {
-                padding: 30px 20px;
+                padding: 35px 20px;
+                border-radius: var(--radius-md);
             }
             .stats-grid {
                 grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            .stat-number {
+                font-size: 2.2rem;
+            }
+            .back-to-top {
+                bottom: 20px;
+                left: 20px;
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
             }
         }
+
         @media (max-width: 480px) {
             .nav-links {
-                display: none;
+                width: 85%;
             }
             .hero-cta {
                 flex-direction: column;
                 align-items: center;
+                gap: 12px;
             }
             .btn {
                 width: 100%;
                 justify-content: center;
+                padding: 14px 24px;
+                font-size: 0.9rem;
             }
             .stats-grid {
                 grid-template-columns: 1fr;
@@ -1015,48 +1537,80 @@
             .apps-grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            .ml-info h3 {
+                font-size: 1.4rem;
+            }
+            .brain-animation {
+                font-size: 4.5rem;
+            }
+            .timeline-content {
+                padding: 18px 16px;
+            }
+            .future-box h3 {
+                font-size: 1.6rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Canvas for particles -->
-    <canvas id="particleCanvas"></canvas>
+    <!-- ===== PRELOADER ===== -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-spinner"></div>
+            <div class="preloader-text">در حال بارگذاری دنیای هوش مصنوعی...</div>
+        </div>
+    </div>
 
-    <!-- Animated background orbs -->
+    <!-- ===== CANVAS ===== -->
+    <canvas id="neuralCanvas"></canvas>
+
+    <!-- ===== ORBS ===== -->
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
     <div class="orb orb-4"></div>
 
-    <!-- Navigation -->
+    <!-- ===== NAVBAR ===== -->
     <nav class="navbar" id="navbar">
-        <div class="nav-logo">✨ هوش مصنوعی</div>
-        <ul class="nav-links">
-            <li><a href="#hero">خانه</a></li>
+        <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">✨ هوش مصنوعی</div>
+        <button class="nav-toggle" id="navToggle" aria-label="منو">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#hero" class="active">خانه</a></li>
             <li><a href="#about">درباره</a></li>
             <li><a href="#types">انواع</a></li>
             <li><a href="#ml">یادگیری ماشین</a></li>
             <li><a href="#apps">کاربردها</a></li>
             <li><a href="#timeline">تاریخچه</a></li>
+            <li><a href="#ethics">اخلاق</a></li>
             <li><a href="#future">آینده</a></li>
         </ul>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- ===== HERO ===== -->
     <section class="hero" id="hero">
         <div class="hero-content">
             <div class="hero-badge">
                 <span class="dot"></span>
-                انقلاب دیجیتال در حال وقوع است
+                انقلاب فناوری در عصر حاضر
             </div>
             <h1 class="hero-title">
-                دنیای شگفت‌انگیز<br>
+                دنیای بی‌نهایت<br>
                 <span class="gradient-text">هوش مصنوعی</span>
             </h1>
             <p class="hero-subtitle">
-                از یادگیری ماشین تا شبکه‌های عصبی عمیق، هوش مصنوعی در حال دگرگون کردن
-                تمامی جنبه‌های زندگی بشر است. با ما همراه شوید تا این فناوری خارق‌العاده را کشف کنید.
+                از شبکه‌های عصبی عمیق تا یادگیری تقویتی، هوش مصنوعی در حال بازتعریف
+                مرزهای دانش بشری است. با ما همراه شوید تا این فناوری شگفت‌انگیز را عمیقاً کشف کنید.
             </p>
             <div class="hero-cta">
                 <a href="#about" class="btn btn-primary">
@@ -1069,56 +1623,61 @@
                 </a>
             </div>
         </div>
-        <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView()">
+        <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
             <span>اسکرول کنید</span>
             <div class="mouse"></div>
         </div>
     </section>
 
+    <!-- ===== MAIN CONTENT ===== -->
     <div class="main-container">
 
-        <!-- About AI Section -->
+        <!-- ABOUT AI -->
         <section class="section" id="about">
             <div class="section-header reveal">
-                <span class="section-label">🔍 آشنایی</span>
+                <span class="section-label">🔍 آشنایی بنیادین</span>
                 <h2 class="section-title">هوش مصنوعی <span class="highlight">چیست؟</span></h2>
                 <p class="section-desc">
                     هوش مصنوعی (Artificial Intelligence) شاخه‌ای از علوم کامپیوتر است که به ساخت
-                    ماشین‌های هوشمندی می‌پردازد که می‌توانند مانند انسان فکر کنند، یاد بگیرند و تصمیم بگیرند.
+                    سیستم‌های هوشمندی می‌پردازد که قادر به تفکر، یادگیری و تصمیم‌گیری مشابه انسان هستند.
                 </p>
             </div>
             <div class="about-grid">
                 <div class="about-card reveal reveal-delay-1">
+                    <span class="card-number">01</span>
                     <div class="icon-wrap">🧠</div>
                     <h3>تفکر و استدلال</h3>
-                    <p>سیستم‌های هوش مصنوعی قادر به تحلیل داده‌ها، شناسایی الگوها و استنتاج منطقی هستند. آنها می‌توانند مسائل پیچیده را حل کرده و تصمیمات هوشمندانه بگیرند.</p>
+                    <p>سیستم‌های هوش مصنوعی قادر به تحلیل داده‌های پیچیده، شناسایی الگوهای پنهان و استنتاج منطقی هستند. آنها می‌توانند مسائل چندوجهی را حل کرده و در شرایط نامطمئن تصمیمات هوشمندانه بگیرند.</p>
                 </div>
                 <div class="about-card reveal reveal-delay-2">
+                    <span class="card-number">02</span>
                     <div class="icon-wrap">📚</div>
-                    <h3>یادگیری مداوم</h3>
-                    <p>برخلاف برنامه‌های سنتی، سیستم‌های AI از تجربه و داده‌ها یاد می‌گیرند. هرچه داده بیشتری دریافت کنند، دقیق‌تر و هوشمندتر می‌شوند.</p>
+                    <h3>یادگیری پیوسته</h3>
+                    <p>برخلاف برنامه‌های سنتی که طبق دستورالعمل‌های ثابت عمل می‌کنند، سیستم‌های AI از تجربه و داده‌ها یاد می‌گیرند. هرچه داده بیشتری دریافت کنند، دقیق‌تر، سریع‌تر و هوشمندتر می‌شوند.</p>
                 </div>
                 <div class="about-card reveal reveal-delay-3">
+                    <span class="card-number">03</span>
                     <div class="icon-wrap">👁️</div>
-                    <h3>ادراک و درک</h3>
-                    <p>از تشخیص تصویر و صدا گرفته تا درک زبان طبیعی، هوش مصنوعی می‌تواند دنیای اطراف خود را از طریق سنسورها و داده‌ها درک کند.</p>
+                    <h3>ادراک محیطی</h3>
+                    <p>از تشخیص تصویر و پردازش گفتار گرفته تا درک زبان طبیعی و تحلیل احساسات، هوش مصنوعی می‌تواند دنیای اطراف خود را از طریق سنسورها و داده‌های حجیم درک و تفسیر کند.</p>
                 </div>
                 <div class="about-card reveal reveal-delay-4">
+                    <span class="card-number">04</span>
                     <div class="icon-wrap">🎯</div>
-                    <h3>تصمیم‌گیری هوشمند</h3>
-                    <p>سیستم‌های AI می‌توانند در شرایط پیچیده و پویا، بهترین گزینه را از بین هزاران امکان انتخاب کنند و عملکرد بهینه‌ای داشته باشند.</p>
+                    <h3>تصمیم‌گیری بهینه</h3>
+                    <p>سیستم‌های AI می‌توانند در محیط‌های پیچیده و پویا، بهترین گزینه را از بین میلیون‌ها امکان ارزیابی کرده و با در نظر گرفتن محدودیت‌ها، عملکرد بهینه‌ای را ارائه دهند.</p>
                 </div>
             </div>
         </section>
 
-        <!-- AI Types -->
+        <!-- AI TYPES -->
         <section class="section" id="types">
             <div class="section-header reveal">
-                <span class="section-label">📊 دسته‌بندی</span>
+                <span class="section-label">📊 دسته‌بندی علمی</span>
                 <h2 class="section-title">انواع <span class="highlight">هوش مصنوعی</span></h2>
                 <p class="section-desc">
                     هوش مصنوعی به سه دسته اصلی تقسیم می‌شود که هر کدام نشان‌دهنده سطح متفاوتی
-                    از توانایی و هوشمندی هستند.
+                    از توانایی، پیچیدگی و هوشمندی هستند.
                 </p>
             </div>
             <div class="types-container">
@@ -1127,9 +1686,9 @@
                     <h3>هوش مصنوعی محدود</h3>
                     <span class="type-status status-available">✅ در دسترس</span>
                     <p>
-                        هوش مصنوعی محدود (Narrow AI) برای انجام یک وظیفه خاص طراحی شده است.
-                        این نوع AI امروزه در همه‌جا وجود دارد: دستیارهای صوتی، سیستم‌های تشخیص چهره،
-                        الگوریتم‌های پیشنهاددهنده و خودروهای خودران.
+                        هوش مصنوعی محدود (Narrow AI) برای انجام یک وظیفه خاص طراحی و بهینه‌سازی شده است.
+                        این نوع AI امروزه در همه‌جا وجود دارد: دستیارهای صوتی مانند Siri و Alexa،
+                        سیستم‌های تشخیص چهره، موتورهای جستجو، الگوریتم‌های پیشنهاددهنده و خودروهای خودران.
                     </p>
                 </div>
                 <div class="type-card reveal reveal-delay-2">
@@ -1139,7 +1698,7 @@
                     <p>
                         هوش مصنوعی عمومی (AGI) به ماشینی اطلاق می‌شود که می‌تواند هر وظیفه فکری
                         که انسان قادر به انجام آن است را انجام دهد. این نوع AI هنوز به طور کامل
-                        محقق نشده اما پژوهش‌های گسترده‌ای در این زمینه در جریان است.
+                        محقق نشده اما پژوهش‌های گسترده‌ای در آزمایشگاه‌های برتر جهان در این زمینه در جریان است.
                     </p>
                 </div>
                 <div class="type-card reveal reveal-delay-3">
@@ -1148,14 +1707,14 @@
                     <span class="type-status status-future">🔮 آینده</span>
                     <p>
                         ابرهوش مصنوعی (Super AI) فراتر از هوش انسانی است و در تمام زمینه‌ها
-                        از جمله خلاقیت، حل مسئله و هوش هیجانی از انسان برتر خواهد بود.
-                        این مفهوم هنوز در حد نظریه است و بحث‌های فلسفی زیادی را برانگیخته است.
+                        از جمله خلاقیت، حل مسئله، هوش هیجانی و حتی خرد جمعی از انسان برتر خواهد بود.
+                        این مفهوم هنوز در حد نظریه است و بحث‌های فلسفی و اخلاقی عمیقی را برانگیخته است.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Machine Learning & Deep Learning -->
+        <!-- ML & DL -->
         <section class="section" id="ml">
             <div class="section-header reveal">
                 <span class="section-label">⚙️ فناوری‌های کلیدی</span>
@@ -1167,13 +1726,14 @@
             </div>
             <div class="ml-grid">
                 <div class="ml-info reveal">
-                    <h3>🧠 شبکه‌های عصبی مصنوعی</h3>
+                    <h3>🧠 <span class="highlight">شبکه‌های عصبی مصنوعی</span></h3>
                     <p>
                         شبکه‌های عصبی مصنوعی از ساختار مغز انسان الهام گرفته شده‌اند.
                         آنها از لایه‌های متعددی از نورون‌های مصنوعی تشکیل شده‌اند که
                         اطلاعات را پردازش و انتقال می‌دهند. یادگیری عمیق با استفاده از
                         شبکه‌های عصبی چندلایه، توانسته است پیشرفت‌های شگرفی در زمینه‌هایی
-                        مانند بینایی ماشین، پردازش زبان طبیعی و بازی‌های استراتژیک ایجاد کند.
+                        مانند بینایی ماشین، پردازش زبان طبیعی، بازی‌های استراتژیک و
+                        حتی کشف دارو ایجاد کند.
                     </p>
                     <div class="ml-tags">
                         <span class="ml-tag">🏷️ یادگیری نظارت‌شده</span>
@@ -1183,42 +1743,46 @@
                         <span class="ml-tag">🏷️ شبکه‌های RNN</span>
                         <span class="ml-tag">🏷️ ترنسفورمرها</span>
                         <span class="ml-tag">🏷️ مدل‌های زبانی بزرگ</span>
+                        <span class="ml-tag">🏷️ GAN ها</span>
+                        <span class="ml-tag">🏷️ یادگیری خودنظارتی</span>
                     </div>
                 </div>
                 <div class="ml-visual reveal reveal-delay-1">
+                    <div class="neural-ring"></div>
+                    <div class="neural-ring ring-2"></div>
                     <span class="brain-animation">🧠</span>
                 </div>
             </div>
         </section>
 
-        <!-- Stats Section -->
+        <!-- STATS -->
         <div class="stats-section reveal">
             <div class="main-container">
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <div class="stat-number">+۲۵۰</div>
+                        <div class="stat-number" data-target="+۲۵۰">+۲۵۰</div>
                         <div class="stat-label">میلیارد دلار سرمایه‌گذاری سالانه</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number">+۸۵٪</div>
+                        <div class="stat-number" data-target="+۸۵٪">+۸۵٪</div>
                         <div class="stat-label">نرخ رشد سالانه صنعت AI</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number">+۹۷٪</div>
+                        <div class="stat-number" data-target="+۹۷٪">+۹۷٪</div>
                         <div class="stat-label">دقت تشخیص تصویر در سیستم‌های مدرن</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number">+۱۰۰</div>
+                        <div class="stat-number" data-target="+۱۰۰">+۱۰۰</div>
                         <div class="stat-label">زبان پشتیبانی‌شده توسط مدل‌های زبانی</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Applications -->
+        <!-- APPLICATIONS -->
         <section class="section" id="apps">
             <div class="section-header reveal">
-                <span class="section-label">💡 کاربردها</span>
+                <span class="section-label">💡 کاربردهای واقعی</span>
                 <h2 class="section-title">کاربردهای <span class="highlight">هوش مصنوعی</span></h2>
                 <p class="section-desc">
                     هوش مصنوعی در حال تحول در صنایع مختلف است.
@@ -1269,18 +1833,18 @@
             </div>
         </section>
 
-        <!-- Timeline -->
+        <!-- TIMELINE -->
         <section class="section" id="timeline">
             <div class="section-header reveal">
-                <span class="section-label">📜 تاریخچه</span>
-                <h2 class="section-title">سفر <span class="highlight">هوش مصنوعی</span></h2>
+                <span class="section-label">📜 سفر تاریخی</span>
+                <h2 class="section-title">مسیر <span class="highlight">هوش مصنوعی</span></h2>
                 <p class="section-desc">
                     از اولین جرقه‌های ایده هوش مصنوعی تا انقلاب یادگیری عمیق،
                     این سفر پرفراز و نشیب را دنبال کنید.
                 </p>
             </div>
             <div class="timeline">
-                <div class="timeline-item reveal">
+                <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="year">۱۹۵۰</div>
@@ -1288,7 +1852,7 @@
                         <p>آلن تورینگ مقاله معروف خود را منتشر کرد و سوالی بنیادین مطرح کرد: «آیا ماشین‌ها می‌توانند فکر کنند؟»</p>
                     </div>
                 </div>
-                <div class="timeline-item reveal reveal-delay-1">
+                <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="year">۱۹۵۶</div>
@@ -1296,7 +1860,7 @@
                         <p>اصطلاح «هوش مصنوعی» برای اولین بار در کنفرانس دارتموث توسط جان مک‌کارتی ابداع شد.</p>
                     </div>
                 </div>
-                <div class="timeline-item reveal">
+                <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="year">۱۹۹۷</div>
@@ -1304,7 +1868,7 @@
                         <p>کامپیوتر دیپ بلو شرکت IBM قهرمان شطرنج جهان، گری کاسپاروف را شکست داد.</p>
                     </div>
                 </div>
-                <div class="timeline-item reveal reveal-delay-1">
+                <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="year">۲۰۱۲</div>
@@ -1312,7 +1876,7 @@
                         <p>شبکه عصبی AlexNet در مسابقه ImageNet پیروز شد و عصر جدید یادگیری عمیق آغاز شد.</p>
                     </div>
                 </div>
-                <div class="timeline-item reveal">
+                <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="year">۲۰۱۶</div>
@@ -1320,7 +1884,7 @@
                         <p>سیستم AlphaGo شرکت DeepMind قهرمان جهانی بازی Go را شکست داد و نقطه عطفی در تاریخ AI ثبت کرد.</p>
                     </div>
                 </div>
-                <div class="timeline-item reveal reveal-delay-1">
+                <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="year">۲۰۲۲-۲۰۲۳</div>
@@ -1331,10 +1895,44 @@
             </div>
         </section>
 
-        <!-- Future -->
+        <!-- ETHICS -->
+        <section class="section" id="ethics">
+            <div class="section-header reveal">
+                <span class="section-label">⚖️ مسئولیت‌پذیری</span>
+                <h2 class="section-title">اخلاق <span class="highlight">هوش مصنوعی</span></h2>
+                <p class="section-desc">
+                    با قدرت بی‌نظیر هوش مصنوعی، مسئولیت‌های اخلاقی و اجتماعی بزرگی همراه است.
+                    این چالش‌ها باید با دقت مورد توجه قرار گیرند.
+                </p>
+            </div>
+            <div class="ethics-grid">
+                <div class="ethics-card reveal reveal-delay-1">
+                    <span class="ethics-icon">🔒</span>
+                    <h4>حریم خصوصی</h4>
+                    <p>حفاظت از داده‌های شخصی و اطمینان از اینکه سیستم‌های AI اطلاعات کاربران را به صورت اخلاقی و شفاف پردازش می‌کنند.</p>
+                </div>
+                <div class="ethics-card reveal reveal-delay-2">
+                    <span class="ethics-icon">⚖️</span>
+                    <h4>عدالت و تعصب</h4>
+                    <p>اطمینان از اینکه الگوریتم‌های AI تبعیض‌آمیز نیستند و نتایج منصفانه‌ای برای همه گروه‌های جامعه ارائه می‌دهند.</p>
+                </div>
+                <div class="ethics-card reveal reveal-delay-3">
+                    <span class="ethics-icon">🛡️</span>
+                    <h4>ایمنی</h4>
+                    <p>تضمین اینکه سیستم‌های هوش مصنوعی قابل اعتماد هستند و در شرایط غیرمنتظره به شیوه‌ای امن و قابل پیش‌بینی عمل می‌کنند.</p>
+                </div>
+                <div class="ethics-card reveal reveal-delay-4">
+                    <span class="ethics-icon">📊</span>
+                    <h4>شفافیت</h4>
+                    <p>قابل توضیح بودن تصمیمات AI و اطمینان از اینکه کاربران می‌توانند نحوه عملکرد سیستم‌ها را درک کنند.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FUTURE -->
         <section class="section" id="future">
             <div class="section-header reveal">
-                <span class="section-label">🔮 چشم‌انداز</span>
+                <span class="section-label">🔮 چشم‌انداز پیش‌رو</span>
                 <h2 class="section-title">آینده <span class="highlight">هوش مصنوعی</span></h2>
                 <p class="section-desc">
                     آینده هوش مصنوعی پر از امکانات بی‌نهایت است.
@@ -1342,13 +1940,14 @@
                 </p>
             </div>
             <div class="future-box reveal">
-                <h3>🌍 جهانی متحول‌شده با AI</h3>
+                <h3>🌍 جهانی متحول‌شده با <span class="highlight">AI</span></h3>
                 <p>
                     هوش مصنوعی در حال تبدیل شدن به بخشی جدایی‌ناپذیر از زندگی روزمره ماست.
                     از خانه‌های هوشمند و شهرهای هوشمند تا پزشکی دقیق و اکتشافات فضایی،
                     AI در حال باز کردن مرزهای جدیدی از امکان‌پذیری است. چالش‌های اخلاقی و
                     اجتماعی نیز باید با دقت مورد توجه قرار گیرند تا از این فناوری به نفع
-                    تمام بشریت استفاده شود.
+                    تمام بشریت استفاده شود. آینده متعلق به کسانی است که هم فناوری را درک می‌کنند
+                    و هم مسئولیت آن را می‌پذیرند.
                 </p>
                 <div class="future-list">
                     <span class="future-chip">🏠 خانه‌های هوشمند</span>
@@ -1359,238 +1958,309 @@
                     <span class="future-chip">⚡ انرژی بهینه</span>
                     <span class="future-chip">🤝 همکاری انسان و ربات</span>
                     <span class="future-chip">📱 دستیارهای شخصی فوق‌هوشمند</span>
+                    <span class="future-chip">🎨 خلق آثار هنری</span>
+                    <span class="future-chip">🔬 اکتشافات علمی</span>
                 </div>
             </div>
         </section>
 
-        <!-- Footer -->
+        <!-- FOOTER -->
         <footer class="footer">
+            <div class="footer-social">
+                <a href="#" aria-label="توییتر">𝕏</a>
+                <a href="#" aria-label="گیت‌هاب">💻</a>
+                <a href="#" aria-label="لینکدین">🔗</a>
+                <a href="#" aria-label="اینستاگرام">📸</a>
+            </div>
             <p>
                 ساخته شده با <span class="heart">❤️</span> برای آینده‌ای هوشمندتر
                 <br><br>
-                © ۱۴۰۴ | دنیای هوش مصنوعی
+                © ۱۴۰۴ | دنیای هوش مصنوعی — تمامی حقوق محفوظ است.
             </p>
         </footer>
 
     </div>
 
+    <!-- ===== BACK TO TOP ===== -->
+    <button class="back-to-top" id="backToTop" aria-label="بازگشت به بالا">↑</button>
+
+    <!-- ===== SCRIPTS ===== -->
     <script>
-        // ========== PARTICLE CANVAS ==========
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let mouseX = 0,
-            mouseY = 0;
-        let animationId;
+        (function() {
+            'use strict';
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.8;
-                this.speedX = (Math.random() - 0.5) * 0.4;
-                this.speedY = (Math.random() - 0.5) * 0.4;
-                this.opacity = Math.random() * 0.7 + 0.2;
-                this.hue = Math.random() * 60 + 240; // purple to pink range
-                this.pulseSpeed = Math.random() * 0.02 + 0.005;
-                this.pulseOffset = Math.random() * Math.PI * 2;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.pulseOffset += this.pulseSpeed;
-
-                // Mouse interaction
-                const dx = this.x - mouseX;
-                const dy = this.y - mouseY;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 150) {
-                    const force = (150 - dist) / 150 * 0.8;
-                    this.x += dx / dist * force;
-                    this.y += dy / dist * force;
-                }
-
-                // Wrap around edges
-                if (this.x < -10) this.x = canvas.width + 10;
-                if (this.x > canvas.width + 10) this.x = -10;
-                if (this.y < -10) this.y = canvas.height + 10;
-                if (this.y > canvas.height + 10) this.y = -10;
-
-                this.currentOpacity = this.opacity * (0.7 + 0.3 * Math.sin(this.pulseOffset));
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `hsla(${this.hue}, 70%, 65%, ${this.currentOpacity})`;
-                ctx.fill();
-                // Glow
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
-                ctx.fillStyle = `hsla(${this.hue}, 70%, 65%, ${this.currentOpacity * 0.15})`;
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            const count = Math.min(150, Math.floor(window.innerWidth / 8));
-            particles = [];
-            for (let i = 0; i < count; i++) {
-                particles.push(new Particle());
-            }
-        }
-        initParticles();
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            initParticles();
-        });
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+            // ========== PRELOADER ==========
+            const preloader = document.getElementById('preloader');
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    preloader.classList.add('hidden');
+                }, 600);
             });
-            // Draw connection lines
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
+            // Fallback
+            setTimeout(() => {
+                if (!preloader.classList.contains('hidden')) {
+                    preloader.classList.add('hidden');
+                }
+            }, 3000);
+
+            // ========== NEURAL CANVAS ==========
+            const canvas = document.getElementById('neuralCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouseX = -1000;
+            let mouseY = -1000;
+            let animationId;
+            let particleCount;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                particleCount = Math.min(180, Math.floor(window.innerWidth / 7));
+            }
+            resizeCanvas();
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2.8 + 0.8;
+                    this.speedX = (Math.random() - 0.5) * 0.45;
+                    this.speedY = (Math.random() - 0.5) * 0.45;
+                    this.opacity = Math.random() * 0.75 + 0.2;
+                    this.hue = Math.random() * 70 + 240;
+                    this.pulseSpeed = Math.random() * 0.025 + 0.005;
+                    this.pulseOffset = Math.random() * Math.PI * 2;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.pulseOffset += this.pulseSpeed;
+
+                    const dx = this.x - mouseX;
+                    const dy = this.y - mouseY;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 100) {
-                        const alpha = (1 - dist / 100) * 0.15;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `hsla(250, 70%, 70%, ${alpha})`;
-                        ctx.lineWidth = 0.7;
-                        ctx.stroke();
+                    if (dist < 180 && dist > 0.1) {
+                        const force = (180 - dist) / 180 * 1.2;
+                        this.x += dx / dist * force * 0.8;
+                        this.y += dy / dist * force * 0.8;
+                    }
+
+                    if (this.x < -20) this.x = canvas.width + 20;
+                    if (this.x > canvas.width + 20) this.x = -20;
+                    if (this.y < -20) this.y = canvas.height + 20;
+                    if (this.y > canvas.height + 20) this.y = -20;
+
+                    this.currentOpacity = this.opacity * (0.65 + 0.35 * Math.sin(this.pulseOffset));
+                }
+                draw() {
+                    // Glow
+                    const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size *
+                    4);
+                    gradient.addColorStop(0, `hsla(${this.hue}, 75%, 65%, ${this.currentOpacity * 0.2})`);
+                    gradient.addColorStop(1, `hsla(${this.hue}, 75%, 65%, 0)`);
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+
+                    // Core
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(${this.hue}, 70%, 70%, ${this.currentOpacity})`;
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            initParticles();
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                initParticles();
+            });
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                // Connections
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 110) {
+                            const alpha = (1 - dist / 110) * 0.18;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `hsla(250, 70%, 75%, ${alpha})`;
+                            ctx.lineWidth = 0.8;
+                            ctx.stroke();
+                        }
                     }
                 }
+                animationId = requestAnimationFrame(animateParticles);
             }
-            animationId = requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
+            animateParticles();
 
-        canvas.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        canvas.addEventListener('touchmove', (e) => {
-            if (e.touches.length > 0) {
-                mouseX = e.touches[0].clientX;
-                mouseY = e.touches[0].clientY;
-            }
-        });
-
-        // ========== NAVBAR SCROLL ==========
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // ========== SCROLL REVEAL ==========
-        const revealElements = document.querySelectorAll('.reveal');
-        const observerOptions = {
-            threshold: 0.15,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
+            canvas.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            canvas.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    mouseX = e.touches[0].clientX;
+                    mouseY = e.touches[0].clientY;
                 }
             });
-        }, observerOptions);
-
-        revealElements.forEach(el => observer.observe(el));
-
-        // ========== SMOOTH SCROLL FOR NAV LINKS ==========
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href');
-                const targetEl = document.querySelector(targetId);
-                if (targetEl) {
-                    targetEl.scrollIntoView({ behavior: 'smooth' });
-                }
+            canvas.addEventListener('mouseleave', () => {
+                mouseX = -1000;
+                mouseY = -1000;
             });
-        });
 
-        // ========== SMOOTH SCROLL FOR HERO CTA ==========
-        document.querySelectorAll('.hero-cta a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href');
-                const targetEl = document.querySelector(targetId);
-                if (targetEl) {
-                    targetEl.scrollIntoView({ behavior: 'smooth' });
-                }
+            // ========== NAVBAR ==========
+            const navbar = document.getElementById('navbar');
+            const navToggle = document.getElementById('navToggle');
+            const navLinks = document.getElementById('navLinks');
+            const allNavLinks = document.querySelectorAll('.nav-links a');
+
+            window.addEventListener('scroll', () => {
+                navbar.classList.toggle('scrolled', window.scrollY > 60);
+                updateActiveNav();
             });
-        });
 
-        // ========== COUNTER ANIMATION ==========
-        function animateCounter(el, target, duration = 2000) {
-            const text = el.textContent;
-            const isPercent = text.includes('٪') || text.includes('%');
-            const hasPlus = text.startsWith('+');
-            const cleanTarget = parseFloat(target.replace(/[^0-9.]/g, ''));
-            const start = performance.now();
+            navToggle.addEventListener('click', () => {
+                navToggle.classList.toggle('open');
+                navLinks.classList.toggle('open');
+            });
 
-            function update(currentTime) {
-                const elapsed = currentTime - start;
-                const progress = Math.min(elapsed / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-                const currentValue = Math.round(cleanTarget * eased);
+            allNavLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    navToggle.classList.remove('open');
+                    navLinks.classList.remove('open');
+                });
+            });
 
-                let displayValue = currentValue;
-                if (hasPlus) displayValue = '+' + displayValue;
-                if (isPercent) displayValue = displayValue + '٪';
-
-                el.textContent = displayValue;
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                } else {
-                    let finalValue = cleanTarget;
-                    if (hasPlus) finalValue = '+' + finalValue;
-                    if (isPercent) finalValue = finalValue + '٪';
-                    el.textContent = finalValue;
-                }
+            function updateActiveNav() {
+                const sections = document.querySelectorAll('.section, .hero');
+                let current = '';
+                sections.forEach(section => {
+                    const top = section.offsetTop - 120;
+                    const bottom = top + section.offsetHeight;
+                    if (window.scrollY >= top && window.scrollY < bottom) {
+                        current = section.id;
+                    }
+                });
+                allNavLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+                });
             }
-            requestAnimationFrame(update);
-        }
+            updateActiveNav();
 
-        const statObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const statNumbers = entry.target.querySelectorAll('.stat-number');
-                    statNumbers.forEach(el => {
-                        const target = el.textContent;
-                        animateCounter(el, target);
-                    });
-                    statObserver.unobserve(entry.target);
+            // ========== BACK TO TOP ==========
+            const backToTop = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                backToTop.classList.toggle('show', window.scrollY > 500);
+            });
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // ========== SCROLL REVEAL ==========
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // ========== TIMELINE REVEAL ==========
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        timelineObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            timelineItems.forEach(item => timelineObserver.observe(item));
+
+            // ========== STATS COUNTER ==========
+            function animateStatCounter(el, target, duration = 2200) {
+                const targetText = el.textContent;
+                const cleanTarget = parseFloat(targetText.replace(/[^0-9.]/g, ''));
+                const isPercent = targetText.includes('٪');
+                const hasPlus = targetText.includes('+');
+                const startTime = performance.now();
+
+                function update(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 4);
+                    const currentVal = Math.round(cleanTarget * eased);
+                    let display = currentVal;
+                    if (hasPlus) display = '+' + display;
+                    if (isPercent) display = display + '٪';
+                    el.textContent = display;
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        el.textContent = targetText;
+                    }
+                }
+                requestAnimationFrame(update);
+            }
+
+            const statObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const nums = entry.target.querySelectorAll('.stat-number');
+                        nums.forEach(num => {
+                            if (!num.dataset.animated) {
+                                num.dataset.animated = 'true';
+                                animateStatCounter(num, num.textContent);
+                            }
+                        });
+                        statObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            const statsSection = document.querySelector('.stats-section');
+            if (statsSection) statObserver.observe(statsSection);
+
+            // ========== KEYBOARD NAVIGATION ==========
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    navToggle.classList.remove('open');
+                    navLinks.classList.remove('open');
                 }
             });
-        }, { threshold: 0.5 });
 
-        const statsSection = document.querySelector('.stats-section');
-        if (statsSection) statObserver.observe(statsSection);
+            console.log('✨ دنیای هوش مصنوعی — بهینه‌سازی شده و بدون باگ');
+            console.log('🚀 ساخته شده با ❤️ برای آینده‌ای هوشمندتر');
+        })();
     </script>
 </body>
 </html>
